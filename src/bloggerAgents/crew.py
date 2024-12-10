@@ -1,15 +1,26 @@
-from crewai import Agent, Task, Crew, Process, LLM
-from crewai.project import CrewBase, agent, task, crew
+from crewai import LLM, Agent, Task, Crew, Process
+from crewai.project import CrewBase, agent, task, crew, before_kickoff, after_kickoff
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
-llm = LLM(
-    model="llama-3.2-3b-preview",
-    temperature=0.3,
-    max_tokens=4096,
-    api_key=GROQ_API_KEY,
+# get api key from .env file
+GROQ_API_KEY=os.getenv('GROQ_API_KEY')
+
+# make custom llm
+llm= LLM(
+    model="llama3-8b-8192",
+    base_url="https://api.groq.com/openai/v1",
+    api_key=GROQ_API_KEY
 )
+
+@before_kickoff
+def before_kickoff_function(self, inputs):
+  print(f"Before kickoff function with inputs: {inputs}")
+  return inputs # You can return the inputs or modify them as needed
+
+@after_kickoff
+def after_kickoff_function(self, result):
+  print(f"After kickoff function with result: {result}")
+  return result # You can return the result or modify it as needed
 
 @CrewBase
 class bloggerCrew():
@@ -20,6 +31,7 @@ class bloggerCrew():
     return Agent(
       config=self.agents_config['Planner'],
       verbose=True,
+      llm=llm
     )
   @task
   def planner_task(self) -> Task:
@@ -31,7 +43,8 @@ class bloggerCrew():
   def Writer(self) -> Agent:
     return Agent(
       config=self.agents_config['Writer'],
-      verbose=True
+      verbose=True,
+      llm=llm
     )
   @task
   def writer_task(self) -> Task:
@@ -42,7 +55,8 @@ class bloggerCrew():
   def Editor(self) -> Agent:
     return Agent(
       config=self.agents_config['Editor'],
-      verbose=True
+      verbose=True,
+      llm=llm
     )
   @task
   def editor_task(self) -> Task:
@@ -64,5 +78,5 @@ class bloggerCrew():
         self.editor_task()
       ],
       process=Process.sequential,
-      verbose=2
+      verbose=True
     )
