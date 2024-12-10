@@ -1,5 +1,5 @@
-# /AgentsToResearchAndWriteAnArticle/main.py
-from AgentsToResearchAndWriteAnArticle.crew import bloggerCrew
+import sys
+from bloggerCrew import bloggerCrew
 from dotenv import load_dotenv
 
 load_dotenv()
