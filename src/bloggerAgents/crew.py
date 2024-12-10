@@ -1,11 +1,14 @@
-from crewai import Agent, Task, Crew, Process
+from crewai import Agent, Task, Crew, Process, LLM
 from crewai.project import CrewBase, agent, task, crew
-from langchain_groq import ChatGroq
 import os
+from dotenv import load_dotenv
 
-llm = ChatGroq(
-    model="llama-3.1-70b-versatile",
-    api_key=os.environ["GROQ_API_KEY"],
+load_dotenv()
+llm = LLM(
+    model="llama-3.2-3b-preview",
+    temperature=0.3,
+    max_tokens=4096,
+    api_key=GROQ_API_KEY,
 )
 
 @CrewBase
