@@ -52,16 +52,9 @@ messages = [
 # Storing the conversation
 store_user_preferences("Mark", messages)
 
-# Add memory
-messages = [
-    {"role": "user", "content": "Hi, I'm Bran. I'm a blog writer focus on tech trends."},
-    {"role": "assistant", "content": "Hello Bran! I've noted that you're a blog writer who focuses on tech trends. I'll keep this in mind for any food-related recommendations or discussions."}
-]
-client.add(messages, user_id="alex")
-
 # Retrieve memory
-query = "what can I cook for dinner tonight?"
-client.search(query, user_id='alex')
+query = "How to create Markdown document?"
+client.search(query, user_id='Mark')
 
 
 # make custom llm
