@@ -64,7 +64,7 @@ llm= LLM(
     api_key=GROQ_API_KEY
 )
 
-""" @before_kickoff
+@before_kickoff
 def before_kickoff_function(self, inputs):
   print(f"Before kickoff function with inputs: {inputs}")
   return inputs 
@@ -72,7 +72,7 @@ def before_kickoff_function(self, inputs):
 def after_kickoff_function(self, result):
   print(f"After kickoff function with result: {result}")
   return result # You can return the result or modify it as needed
- """
+
 @CrewBase
 class bloggerCrew():
   """blogger crew"""
