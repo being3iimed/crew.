@@ -3,7 +3,7 @@ import os
 package = __import__('pysqlite3')
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
-from crew import bloggerCrew
+from bloggerAgents.crew import bloggerCrew
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -14,10 +14,10 @@ def run():
     Run the crew.
     """
     inputs = {
-        'topic': 'AI Agents'
+        'topic': 'Agentic Automation'
     }
     print("Initializing the crew...")
-    crew = bloggerCrew().crew()  # Ensure bloggerCrew().crew() works as expected
+    crew = bloggerCrew().crew()  
     print("Crew initialized. Starting kickoff...")
     result = crew.kickoff(inputs=inputs)
     print("Kickoff complete. Writing result to file...")
@@ -30,6 +30,6 @@ def run():
         f.write(str(result))
 
     print("Result saved to output/blog.md")
-# Ensure this script runs properly when executed
+
 if __name__ == "__main__":
     run()
