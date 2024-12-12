@@ -6,12 +6,12 @@ from crewai_tools import SerperDevTool
 
 # get api key from .env file
 GROQ_API_KEY=os.getenv('GROQ_API_KEY')
-mem0_API_KEY=os.getenv('mem0_API_KEY')
+MEM0_API_KEY=os.getenv('MEM0_API_KEY')
 SERPER_API_KEY=os.getenv('SERPER_API_KEY')
 
 
 # mem0: intialize client
-client = MemoryClient(api_key="mem0_API_KEY")
+client = MemoryClient(api_key="MEM0_API_KEY")
 
 def store_user_preferences(user_id: str, conversation: list):
     """
@@ -31,31 +31,26 @@ messages = [
     },
     {
         "role": "assistant",
-        "content": "Sure! I'd be happy to help. Could you tell me a bit about your project? What's its purpose?",
+        "content": "Sure! I'd be happy to help. Could you tell me a bit about you preferences for markdown document.",
     },
     {
         "role": "user",
-        "content": "It's a web scraper that extracts data from e-commerce websites.",
+        "content": "use appropriate Markdown headers, and ensure that a Sources section is included at the end, with references.",
     },
     {
-        "role": "assistant",
-        "content": (
-            "Great! To create a detailed README.md, could you provide more details? "
-            "For example, the installation process, usage instructions, and features of the scraper?"
-        ),
-    },
-    {
-        "role": "user",
-        "content": (
-            "Sure! Users can install it via `pip install ecom-scraper`. "
-            "It supports multiple e-commerce sites and has customizable scraping rules. "
-            "I'll provide more details about the features."
-        ),
-    },
+    "role": "assistant",
+    "content": (
+        "Sure! To structure your document effectively, follow these guidelines: "
+        "1. **Use Markdown headers** to organize content clearly, such as `# Header 1`, `## Header 2`, and so on.\n"
+        "2. **Include a Sources section** at the end, listing all external references with numbered citations like:\n"
+        "- [1] Author, *Title*, Year"
+        "- [2] Author, *Title*, Year"
+    )
+},
 ]
 
 # Storing the conversation
-store_user_preferences("crew_user_1", messages)
+store_user_preferences("Mark", messages)
 
 # Add memory
 messages = [
@@ -140,7 +135,11 @@ class bloggerCrew():
         self.writer_task(),
         self.editor_task()
       ],
+      verbose=True,
       process=Process.sequential,
       memory=True,
-      verbose=True,
-  )
+      memory_config={
+          "provider": "mem0",
+          "config": {"user_id": "Mark"},
+      },
+)
