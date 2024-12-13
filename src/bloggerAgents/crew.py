@@ -1,73 +1,39 @@
 import os
 from crewai import LLM, Agent, Task, Crew, Process
 from crewai.project import CrewBase, agent, task, crew, before_kickoff, after_kickoff
-from mem0 import MemoryClient
-from crewai_tools import SerperDevTool
+from crewai_tools import GithubSearchTool
 
 # get api key from .env file
 GROQ_API_KEY=os.getenv('GROQ_API_KEY')
-MEM0_API_KEY=os.getenv('MEM0_API_KEY')
-SERPER_API_KEY=os.getenv('SERPER_API_KEY')
-
-
-# mem0: intialize client
-client = MemoryClient(api_key="MEM0_API_KEY")
-
-def store_user_preferences(user_id: str, conversation: list):
-    """
-    Store user preferences from conversation history.
-    
-    Args:
-        user_id (str): Unique identifier for the user.
-        conversation (list): A list of messages exchanged between the user and the assistant.
-    """
-    client.add(conversation, user_id=user_id)
-
-# Example conversation for a README.md creation process
-messages = [
-    {
-        "role": "user",
-        "content": "Hi! I need help creating a README.md file for my project.",
-    },
-    {
-        "role": "assistant",
-        "content": "Sure! I'd be happy to help. Could you tell me a bit about you preferences for markdown document.",
-    },
-    {
-        "role": "user",
-        "content": "use appropriate Markdown headers, and ensure that a Sources section is included at the end, with references.",
-    },
-    {
-    "role": "assistant",
-    "content": (
-        "Sure! To structure your document effectively, follow these guidelines: "
-        "1. **Use Markdown headers** to organize content clearly, such as `# Header 1`, `## Header 2`, and so on.\n"
-        "2. **Include a Sources section** at the end, listing all external references with numbered citations like:\n"
-        "- [1] Author, *Title*, Year"
-        "- [2] Author, *Title*, Year"
-    )
-},
-]
-
-# Storing the conversation
-store_user_preferences("Mark", messages)
-
-# Retrieve memory
-query = "How to create Markdown document?"
-client.search(query, user_id='Mark')
-
 
 # make custom llm
 llm= LLM(
     model="llama3-8b-8192",
     base_url="https://api.groq.com/openai/v1",
-    api_key=GROQ_API_KEY
+    api_key=GROQ_API_KEY,
+    temperature=0.4
+)
+
+tool = GithubSearchTool(
+    gh_token='your_github_personal_access_token',
+    content_types=['code'], # Options: code, repo, pr, issue
+    config=dict(
+        llm=llm,
+        embedder=dict(
+            provider="google", # or openai, ollama, ...
+            config=dict(
+                model="models/embedding-001",
+                task_type="retrieval_document",
+                title="Embeddings",
+            ),
+        ),
+    )
 )
 
 @before_kickoff
 def before_kickoff_function(self, inputs):
   print(f"Before kickoff function with inputs: {inputs}")
-  return inputs 
+  return inputs
 @after_kickoff
 def after_kickoff_function(self, result):
   print(f"After kickoff function with result: {result}")
@@ -77,6 +43,20 @@ def after_kickoff_function(self, result):
 class bloggerCrew():
   """blogger crew"""
 
+  @agent
+  def Retriever(self) -> Agent:
+    return Agent(
+      config=self.agents_config['Planner'],
+      verbose=True,
+      tools=[GithubSearchTool],
+      llm=llm
+    )
+  @task
+  def retriever_task(self) -> Task:
+    return Task(
+      config=self.tasks_config['planner_task']
+    )
+  
   @agent
   def Planner(self) -> Agent:
     return Agent(
@@ -114,7 +94,7 @@ class bloggerCrew():
     return Task(
       config=self.tasks_config['editor_task']
     )
-  
+
   @crew
   def crew(self) -> Crew:
     return Crew(

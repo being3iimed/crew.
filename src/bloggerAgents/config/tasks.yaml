@@ -1,3 +1,13 @@
+retriever_task:
+  description: >
+    1. Access the provided URL: {url} to locate the GitHub repository.
+    2. Analyze the repository's codebase and content.
+    3. Summarize the repository's purpose and main functionalities.
+    4. Highlight any unique or noteworthy aspects of the repository.
+  expected_output: >
+    A concise summary of the repository's purpose, key features, and structure, formatted in Markdown.
+  agent: Retriever
+
 planner_task:
   description: >
     1. Prioritize the latest trends, key players, and noteworthy news on {topic}.
