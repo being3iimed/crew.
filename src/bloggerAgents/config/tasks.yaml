@@ -2,40 +2,52 @@ retriever_task:
   description: >
     1. Access the provided URL: {url} to locate the GitHub repository.
     2. Analyze the repository's codebase and content.
-    3. Summarize the repository's purpose and main functionalities.
-    4. Highlight any unique or noteworthy aspects of the repository.
+    3. Summarize the repository's purpose, key features, and overall structure.
+    4. Highlight any unique, noteworthy, or unusual aspects of the repository.
   expected_output: >
     A concise summary of the repository's purpose, key features, and structure, formatted in Markdown.
   agent: Retriever
 
 planner_task:
   description: >
-    1. Prioritize the latest trends, key players, and noteworthy news on {topic}.
-    2. Identify the target audience, considering their interests and pain points.
-    3. Develop a detailed content outline including an introduction, key points, and a call to action.
-    4. Include SEO keywords and relevant data or sources.
+    1. Review the retriever's summary for the repository.
+    2. Identify the target audience and determine the primary use cases for the repository.
+    3. Develop an outline for the Readme.md file, including sections like:
+       - Project description
+       - Installation instructions
+       - Usage examples
+       - Contributing guidelines
+       - Licensing information
+    4. Ensure the outline considers clarity and usability for developers and users.
   expected_output: >
-    A comprehensive content plan document with an outline, audience analysis, SEO keywords, and resources.
+    A detailed outline for the Readme.md, including suggested section headings and a summary of the content to be included in each section.
   agent: Planner
 
 writer_task:
   description: >
-    1. Use the content plan to craft a compelling blog post on {topic}.
-    2. Incorporate SEO keywords naturally.
-    3. Sections/Subtitles are properly named in an engaging manner.
-    4. Ensure the post is structured with an engaging introduction, insightful body, and a summarizing conclusion.
-    5. Proofread for grammatical errors and alignment with the brand's voice.
+    1. Use the content plan provided by the Planner and the Retriever's summary to craft a Readme.md file.
+    2. Write the content in clear, concise, and developer-friendly language.
+    3. Include the following sections based on the outline:
+       - Project description
+       - Installation instructions
+       - Usage examples
+       - Contributing guidelines
+       - Licensing and additional information
+    4. Ensure the content flows logically, with appropriate tone and language.
   expected_output: >
-    A well-written blog post in markdown format, ready for publication.
-    Each section should have 2 or 3 paragraphs and should be formatted as markdown without '```'.
+    A fully written Readme.md file in Markdown format, ready for review and editing.
   agent: Writer
 
-editor_task:
+refiner_task:
   description: >
-    Proofread the given blog post for grammatical errors and alignment with the brand's voice.
+    1. Review the Readme.md file created by the Writer for clarity, accuracy, and consistency.
+    2. Proofread for grammatical errors and adherence to technical writing best practices.
+    3. Ensure proper formatting and alignment with the project's style guide.
+    4. Optimize for readability, developer usability, and searchability.
+    5. Adjust headings, bullet points, and code blocks for optimal readability.
+    6. Ensure proper use of Markdown elements like tables, links, and images where applicable.
+    7. Check the file for visual appeal, structure, and technical accuracy.
   expected_output: >
-    A finalized blog post in markdown format, ready for publication.
-    Each section should have 2 or 3 paragraphs and should be formatted as markdown without '```'.
-  agent: Editor
-  context: [writer_task] # Ensure this waits for writer_task completion
-  output_file: output/blog.md
+    A finalized, beautifully formatted Readme.md file in Markdown format, free of errors and fully polished for publication. The document should be visually appealing, easy to read, and aligned with the project's style.
+  agent: Refiner
+
