@@ -5,7 +5,7 @@ from crewai_tools import GithubSearchTool
 
 # get api key from .env file
 GROQ_API_KEY=os.getenv('GROQ_API_KEY')
-GH_TOKEN=os.getenv('GH_TOKEN')
+GITHUB_TOKEN=os.getenv('GITHUB_TOKEN')
 
 # make custom llm
 llm= LLM(
@@ -15,21 +15,28 @@ llm= LLM(
     temperature=0.4
 )
 
-tool = GithubSearchTool(
-    gh_token=GH_TOKEN,
+""" githubtool = GithubSearchTool(
+    github_repo='https://github.com/being3iimed/ICP-Iterative-Closest-Point-Algorithm',
+    gh_token=GITHUB_TOKEN,
     content_types=['code', 'repo'], # Options: code, repo, pr, issue
     config=dict(
-        llm=llm,
-        embedder=dict(
-            provider="google", # or openai, ollama, ...
-            config=dict(
-                model="models/embedding-001",
-                task_type="retrieval_document",
-                title="Embeddings",
-            ),
-        ),
+      llm=dict(
+          provider="groq",  # or google, openai, anthropic, llama2, ...
+          config=dict(
+              model="llama3-8b-8192",
+              base_url="https://api.groq.com/openai/v1",
+              api_key="your_groq_api_key",  # Ensure this is set
+              temperature=0.4
+          )
+      ),
+      embedder=dict(
+              provider="huggingface", # or google, openai, anthropic, llama2.. 
+              config=dict(
+              model="izhx/udever-bloom-1b1", 
+              ),
+          ),  
     )
-)
+) """
 
 @before_kickoff
 def before_kickoff_function(self, inputs):
@@ -47,15 +54,14 @@ class ReadmeCrew():
   @agent
   def Retriever(self) -> Agent:
     return Agent(
-      config=self.agents_config['Planner'],
+      config=self.agents_config['Retriever'],
       verbose=True,
-      tools=[GithubSearchTool],
       llm=llm
     )
   @task
   def retriever_task(self) -> Task:
     return Task(
-      config=self.tasks_config['planner_task']
+      config=self.tasks_config['retriever_task']
     )
   
   @agent
@@ -100,11 +106,13 @@ class ReadmeCrew():
   def crew(self) -> Crew:
     return Crew(
       agents=[
+        self.Retriever(),
         self.Planner(),
         self.Writer(),
         self.Refiner()
       ],
       tasks=[
+        self.retriever_task(),
         self.planner_task(),
         self.writer_task(),
         self.refiner_task()
