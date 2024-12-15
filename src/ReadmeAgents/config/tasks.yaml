@@ -48,6 +48,9 @@ refiner_task:
     6. Ensure proper use of Markdown elements like tables, links, and images where applicable.
     7. Check the file for visual appeal, structure, and technical accuracy.
   expected_output: >
-    A finalized, beautifully formatted Readme.md file in Markdown format, free of errors and fully polished for publication. The document should be visually appealing, easy to read, and aligned with the project's style.
+    A finalized, beautifully formatted Readme.md file in Markdown format, free of errors and 
+    fully polished for publication. The document should be visually appealing, easy to read, and aligned with the project's style.
+  context: [writer_task] # Ensure this waits for writer_task completion
+  output_file: output/README.md
   agent: Refiner
 

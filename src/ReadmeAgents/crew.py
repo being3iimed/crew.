@@ -5,6 +5,7 @@ from crewai_tools import GithubSearchTool
 
 # get api key from .env file
 GROQ_API_KEY=os.getenv('GROQ_API_KEY')
+GH_TOKEN=os.getenv('GH_TOKEN')
 
 # make custom llm
 llm= LLM(
@@ -15,8 +16,8 @@ llm= LLM(
 )
 
 tool = GithubSearchTool(
-    gh_token='your_github_personal_access_token',
-    content_types=['code'], # Options: code, repo, pr, issue
+    gh_token=GH_TOKEN,
+    content_types=['code', 'repo'], # Options: code, repo, pr, issue
     config=dict(
         llm=llm,
         embedder=dict(
@@ -40,8 +41,8 @@ def after_kickoff_function(self, result):
   return result # You can return the result or modify it as needed
 
 @CrewBase
-class bloggerCrew():
-  """blogger crew"""
+class ReadmeCrew():
+  """README.md crew"""
 
   @agent
   def Retriever(self) -> Agent:
@@ -83,16 +84,16 @@ class bloggerCrew():
       config=self.tasks_config['writer_task']
     )
   @agent
-  def Editor(self) -> Agent:
+  def Refiner(self) -> Agent:
     return Agent(
-      config=self.agents_config['Editor'],
+      config=self.agents_config['Refiner'],
       verbose=True,
       llm=llm
     )
   @task
-  def editor_task(self) -> Task:
+  def refiner_task(self) -> Task:
     return Task(
-      config=self.tasks_config['editor_task']
+      config=self.tasks_config['refiner_task']
     )
 
   @crew
@@ -101,18 +102,18 @@ class bloggerCrew():
       agents=[
         self.Planner(),
         self.Writer(),
-        self.Editor()
+        self.Refiner()
       ],
       tasks=[
         self.planner_task(),
         self.writer_task(),
-        self.editor_task()
+        self.refiner_task()
       ],
       verbose=True,
       process=Process.sequential,
       memory=True,
-      memory_config={
-          "provider": "mem0",
-          "config": {"user_id": "Mark"},
-      },
+      # memory_config={
+      #     "provider": "mem0",
+      #     "config": {"user_id": "Mark"},
+      # },
 )

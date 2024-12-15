@@ -3,7 +3,7 @@ import os
 package = __import__('pysqlite3')
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
-from bloggerAgents.crew import bloggerCrew
+from ReadmeAgents.crew import ReadmeCrew
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -14,10 +14,10 @@ def run():
     Run the crew.
     """
     inputs = {
-        'topic': 'Agentic Automation'
+        'url': 'https://github.com/being3iimed/ICP-Iterative-Closest-Point-Algorithm'
     }
     print("Initializing the crew...")
-    crew = bloggerCrew().crew()  
+    crew = ReadmeCrew().crew()  
     print("Crew initialized. Starting kickoff...")
     result = crew.kickoff(inputs=inputs)
     print("Kickoff complete. Writing result to file...")
@@ -26,10 +26,10 @@ def run():
     os.makedirs("output", exist_ok=True)
 
     # Write the result to the file
-    with open("output/blog.md", "w") as f:
+    with open("output/README.md", "w") as f:
         f.write(str(result))
 
-    print("Result saved to output/blog.md")
+    print("Result saved to output/README.md")
 
 if __name__ == "__main__":
     run()
