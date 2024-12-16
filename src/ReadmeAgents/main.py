@@ -8,13 +8,14 @@ from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
+github_r=os.getenv('github_r')
 
 def run():
     """
     Run the crew.
     """
     inputs = {
-        'url': 'https://github.com/being3iimed/ICP-Iterative-Closest-Point-Algorithm'
+        'url': github_r
     }
     print("Initializing the crew...")
     crew = ReadmeCrew().crew()  

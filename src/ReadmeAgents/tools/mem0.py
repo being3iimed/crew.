@@ -1,3 +1,4 @@
+import os
 from mem0 import MemoryClient
 
 MEM0_API_KEY=os.getenv('MEM0_API_KEY')
