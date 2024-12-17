@@ -29,6 +29,11 @@ def run():
     # Write the result to the file
     with open("output/README.md", "w") as f:
         f.write(str(result))
+    
+    # Write the usage metrics to the file
+    usagemetrics = crew.usage_metrics
+    with open("output/usage_metrics.md", "w") as f:
+        f.write(str(usagemetrics))
 
     print("Result saved to output/README.md")
 

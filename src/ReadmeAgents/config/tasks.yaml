@@ -14,6 +14,9 @@ planner_task:
     2. Identify the target audience and determine the primary use cases for the repository.
     3. Develop an outline for the Readme.md file, including sections like:
        - Project description
+        - Summary of each files resides in the repository.
+        - Repository Structure
+        - Purpose of each files in the repository.
        - Installation instructions
        - Usage examples
        - Contributing guidelines
@@ -29,6 +32,9 @@ writer_task:
     2. Write the content in clear, concise, and developer-friendly language.
     3. Include the following sections based on the outline:
        - Project description
+        - Summary of each files resides in the repository.
+        - Repository Structure
+        - Purpose of each files in the repository.
        - Installation instructions
        - Usage examples
        - Contributing guidelines

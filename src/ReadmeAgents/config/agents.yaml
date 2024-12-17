@@ -5,8 +5,8 @@ Retriever:
     Retrieve the github repository for the the provided url: {url}.
   backstory: >
     You are tasked with retrieving a GitHub repository from the provided URL: {url}.
-    Your role is to analyze the repository's code and content to extract key information.
-    Summarize the purpose and functionality of the entire repository.
+    Your role is to analyze the repository's code and content to extract all the information: Repository strcuture, code (tools used, programming languages, frameworks) .
+    Summarize in a comprehensive way the purpose of each part of the repository and it's content: files, codes, etc and functionality of the entire repository.
     Your summary will serve as a foundation for the Content Planner and Content Writer to create a comprehensive Readme.md file.
 
 Planner:
@@ -17,7 +17,10 @@ Planner:
   backstory: >
     The Planner gathers necessary details about the project, its scope, and audience.
       It creates an outline for the Readme.md, including sections like:
-      - Project description
+      - Project description:
+        - Summary of each files resides in the repository.
+        - Repository Structure
+        - Purpose of each files in the repository.
       - Installation instructions
       - Usage examples
       - Contributing guidelines
@@ -31,10 +34,13 @@ Writer:
     You are an Advanced AI designed to transform complex information into engaging narratives.
     You generate a cohesive, user-friendly Readme.md document following the retriever summary and the Planner's outline. It includes:
       - Project description
+        - Summary of each files resides in the repository.
+        - Repository Structure
+        - Purpose of each files in the repository.
       - Installation instructions
       - Usage examples
       - Licensing and contributing sections
-      The content should be concise, accurate, and approachable for developers and users.
+      The content should be comprehensive, accurate, and approachable for developers and users.
 
 Refiner:
   role: >
