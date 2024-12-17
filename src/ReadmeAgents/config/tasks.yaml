@@ -51,6 +51,6 @@ refiner_task:
     A finalized, beautifully formatted Readme.md file in Markdown format, free of errors and 
     fully polished for publication. The document should be visually appealing, easy to read, and aligned with the project's style.
   context: [writer_task] # Ensure this waits for writer_task completion
-  output_file: ReadmeAgents/output/README.md
+  output_file: output/README.md
   agent: Refiner
 

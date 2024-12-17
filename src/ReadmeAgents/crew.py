@@ -12,11 +12,12 @@ load_dotenv()
 GROQ_API_KEY=os.getenv('GROQ_API_KEY')
 GITHUB_TOKEN=os.getenv('GITHUB_TOKEN')
 MEM0_API_KEY=os.getenv('MEM0_API_KEY')
+LLM_MODEL=os.getenv('LLM_MODEL')
 github_r=os.getenv('github_r')
 
 
 # mem0: intialize client
-client = MemoryClient(api_key="MEM0_API_KEY")
+client = MemoryClient(api_key=MEM0_API_KEY)
 
 def store_user_preferences(user_id: str, conversation: list):
     """
@@ -66,19 +67,19 @@ client.search(query, user_id='Mark')
 githubtool = GithubSearchTool(
     github_repo=github_r,
     gh_token=GITHUB_TOKEN,
-    content_types=['code', 'repo'],  # Options: code, repo, pr, issue
+    content_types=['code', 'repo'], 
     config=dict(
         llm=dict(
-            provider="groq",  # or google, openai, anthropic, llama2, etc.
+            provider="groq", 
             config=dict(
-                model="llama3-groq-8b-8192-tool-use-preview",
+                model=LLM_MODEL,
                 base_url="https://api.groq.com/openai/v1",
                 api_key=GROQ_API_KEY,
                 temperature=0.4,
             )
         ),
         embedder=dict(
-            provider="huggingface",  # or google, openai, anthropic, llama2..
+            provider="huggingface",
             config=dict(
                 model="izhx/udever-bloom-1b1",
             ),
@@ -101,7 +102,7 @@ class ReadmeCrew():
 
   # make custom llm
   llm= LLM(
-      model="llama3-groq-8b-8192-tool-use-preview",
+      model=LLM_MODEL,
       base_url="https://api.groq.com/openai/v1",
       api_key=GROQ_API_KEY,
       temperature=0.4
@@ -178,7 +179,7 @@ class ReadmeCrew():
       verbose=True,
       process=Process.sequential,
       memory=True,
-        memory_config={
+      memory_config={
             "provider": "mem0",
            "config": {"user_id": "Mark"},
         },
