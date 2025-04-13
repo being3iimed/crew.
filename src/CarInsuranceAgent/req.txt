@@ -1,3 +1,10 @@
-streamlit
-crewai
-google-generativeai
+streamlit>=1.31.0
+crewai>=0.11.0
+python-dotenv>=1.0.0
+crewai-tools>=0.0.1
+pysqlite3>=0.5.1
+langchain>=0.1.0
+langchain-openai>=0.0.2
+pydantic>=2.5.0
+google-generativeai>=0.3.0
+Pillow>=10.0.0
