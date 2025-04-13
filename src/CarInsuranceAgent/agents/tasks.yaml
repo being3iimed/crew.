@@ -1,0 +1,19 @@
+car_value_estimation_task:
+  description: >
+    1. Receive user input about the vehicle, including make, model, year, mileage, and condition.
+    2. Analyze the data to estimate the car's current market value using the Gemini API.
+    3. Consider regional market trends and depreciation patterns in the estimation.
+    4. Return a clear, fair, and data-informed vehicle valuation.
+  expected_output: >
+    A well-structured Markdown response including the estimated value, evaluation criteria, and any relevant market context.
+  agent: CarValueEstimator
+
+insurance_info_response_task:
+  description: >
+    1. Read the user's question related to car insurance coverage, claims, policy types, or legal terms.
+    2. Use the Gemini API to interpret the intent and generate a helpful, accurate answer.
+    3. Avoid jargon — explain terms in plain language when possible.
+    4. Ensure the tone is friendly, professional, and confidence-building.
+  expected_output: >
+    A concise and informative answer in Markdown format, tailored to the user's question, with friendly language and clarity.
+  agent: InsuranceInfoResponder
