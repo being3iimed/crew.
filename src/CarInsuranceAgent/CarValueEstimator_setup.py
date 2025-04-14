@@ -20,7 +20,7 @@ class CarValueEstimatorCrew():
     # Make custom LLM
     llm = LLM(
         model=LLM_MODEL,
-        base_url="https://ai.google.dev/gemini-api/",
+        base_url="https://api.groq.com/openai/v1/",
         api_key=GEMINI_API_KEY,
         temperature=0.4
     )
