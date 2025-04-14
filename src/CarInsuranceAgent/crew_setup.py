@@ -2,7 +2,10 @@ import os
 from crewai import LLM, Agent, Task, Crew, Process
 from crewai.project import CrewBase, agent, task, crew, before_kickoff, after_kickoff
 from crewai_tools import GeminiQueryTool
+<<<<<<< HEAD
 from tools import CarDetailsExtractor, insurance_info_agent_tool, value_estimator_agent_tool
+=======
+>>>>>>> 81a9c987731aa2f960d0dcf54e6452bc5b90f1bb
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -49,7 +52,11 @@ class CarInsuranceCrew:
         return Agent(
             config=self.agents_config['CarValueEstimator'],
             verbose=True,
+<<<<<<< HEAD
             tools=[value_estimator_agent_tool(), CarDetailsExtractor()],
+=======
+            tools=[GeminiQueryTool(api_key=GEMINI_API_KEY)],
+>>>>>>> 81a9c987731aa2f960d0dcf54e6452bc5b90f1bb
             llm=self.llm
         )
     
@@ -58,7 +65,11 @@ class CarInsuranceCrew:
         return Agent(
             config=self.agents_config['InsuranceInfoResponder'],
             verbose=True,
+<<<<<<< HEAD
             tools=[],
+=======
+            tools=[GeminiQueryTool(api_key=GEMINI_API_KEY)],
+>>>>>>> 81a9c987731aa2f960d0dcf54e6452bc5b90f1bb
             llm=self.llm
         )
     
