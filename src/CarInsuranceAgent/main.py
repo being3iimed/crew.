@@ -3,7 +3,9 @@ package = __import__('pysqlite3')
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 import streamlit as st
-from crew_setup import value_agent, info_agent
+from CarValueEstimator_setup import CarValueEstimatorCrew
+from InsuranceInfoResponder_setup import InsuranceInfoResponderCrew
+
 
 st.title("🚗 Car Insurance Assistant")
 
@@ -14,7 +16,7 @@ if task == "Estimate Car Value":
     if st.button("Estimate Value"):
         if car_details:
             with st.spinner("Estimating..."):
-                result = value_agent.run(car_details)
+                result = CarValueEstimatorCrew().crew().kickoff(inputs={"car_details": car_details})
                 st.success(result)
         else:
             st.warning("Please enter car details.")
@@ -24,7 +26,7 @@ elif task == "Ask Insurance Question":
     if st.button("Get Answer"):
         if user_question:
             with st.spinner("Thinking..."):
-                result = info_agent.run(user_question)
+                result = result = InsuranceInfoResponderCrew().crew().kickoff(inputs={"user_question": user_question})
                 st.success(result)
         else:
             st.warning("Please enter a question.")
