@@ -28,5 +28,5 @@ summarize_results_task:
     car identity, estimated value, and recommended insurance.
     Keep it easy to read and helpful.
   expected_output: >
-    Something like: "You uploaded a 2018 Toyota Corolla. It's worth around $11,000. Full coverage is a good choice here."
+    A final valuation report, that should not be too long, with a price estimate and a rationale combining all previous findings.
   agent: response_summarizer
