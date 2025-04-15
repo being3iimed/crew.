@@ -1,0 +1,32 @@
+classify_question_task:
+  description: >
+    Read the user's insurance question: {user_question}.
+    Identify what category it falls under (coverage, claims, policy types, or legal terms).
+    Answer in a short, friendly sentence like: "You're asking about how claim payouts work."
+  expected_output: >
+    A 1-sentence classification summary of the user's question type.
+  agent: intent_classifier
+
+research_insurance_info_task:
+  description: >
+    Based on the user's question and location, find relevant insurance info.
+    Focus on recent changes in laws or coverage rules. Skip heavy legal terms.
+  expected_output: >
+    A short bullet-style or 5-6 sentence summary of the most relevant info for the user’s question.
+  agent: insurance_researcher
+
+explain_in_plain_language_task:
+  description: >
+    Rephrase the insurance info from the research step in clear, simple terms.
+    Add a relatable example if helpful.
+  expected_output: >
+    A friendly, an explanation in conversational tone that avoids jargon.
+  agent: plain_language_explainer
+
+offer_next_steps_task:
+  description: >
+    Suggest practical next steps the user could take based on their question.
+    Include helpful links or guidance if professional help might be needed.
+  expected_output: >
+    A sentence or two offering advice or resources based on the user’s situation.
+  agent: next_step_advisor

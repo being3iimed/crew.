@@ -1,0 +1,31 @@
+validate_input_task:
+  description: >
+    Check if all required vehicle details are present and clear.
+    Point out anything that's missing or ambiguous in a friendly way.
+  expected_output: >
+    A quick validation summary: either "All good!" or a short list of fields that need clarification.
+  agent: data_validator
+
+analyze_market_task:
+  description: >
+    Look up similar cars in the current market based on provided specs.
+    Give a short price range and mention what affects it (e.g. demand, location).
+  expected_output: >
+    A 1-2 sentence summary like: "Cars like this usually sell for $12,000–$14,000 in your area, depending on condition."
+  agent: market_analyst
+
+adjust_for_condition_task:
+  description: >
+    Adjust the car's price based on its condition, mileage, and any modifications.
+    Mention what helps or hurts the value briefly.
+  expected_output: >
+    A short adjustment note like: "The high mileage lowers the value by about $800, but new tires help add $300 back."
+  agent: condition_adjuster
+
+generate_valuation_report_task:
+  description: >
+    Combine the market analysis and condition-adjusted price to produce a final estimated value for the vehicle.
+    Present it as a professional report with a summary, estimated price, and justification for the valuation.
+  expected_output: >
+    A final valuation report, that should not be too long, with a price estimate and a rationale combining all previous findings.
+  agent: final_synthesizer
