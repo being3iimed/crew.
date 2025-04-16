@@ -2,12 +2,12 @@ import sys
 package = __import__('pysqlite3')
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
-
+from tools.see_img import describe_image
 import streamlit as st
 from car_value_estimation_setup import CarValueEstimatorCrew
 from insurance_info_response_setup import InsuranceInfoResponderCrew
 from image_car_analysis_setup import ImageCarAnalysisCrew 
-
+#from summary_agent import SummaryCrew
 
 
 st.title("🚗 Car Insurance Assistant")
@@ -15,7 +15,7 @@ st.title("🚗 Car Insurance Assistant")
 task = st.radio("Choose a task", [
     "Estimate Car Value",
     "Ask Insurance Question",
-    "Image-Based Car Estimation"  # ⬅️ new task option
+    "Image-Based Car Estimation"
 ])
 
 if task == "Estimate Car Value":
@@ -39,13 +39,29 @@ elif task == "Ask Insurance Question":
             st.warning("Please enter a question.")
 
 elif task == "Image-Based Car Estimation":
-    image_url = st.text_input("Paste the image URL (from Google, X, Facebook, etc.)")
+    uploaded_file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg", "jfif", "webp"])
 
-    if st.button("Analyze Image"):
-        if image_url:
+    if uploaded_file is not None:
+        image_bytes = uploaded_file.read()
+        st.image(image_bytes, caption="Uploaded Image", use_column_width=True)
+
+        if st.button("Describe Image"):
             with st.spinner("Analyzing image..."):
-                result = ImageCarAnalysisCrew().crew().kickoff(inputs={"image_url": image_url})
-                st.success(result)
-        else:
-            st.warning("Please paste a valid image URL.")
+                try:
+                    description = describe_image(image_bytes)
+                    st.success("Description:")
+                    st.write(description)
 
+                    try:
+                        result = ImageCarAnalysisCrew().crew().kickoff(
+                            inputs={"image_description": description}
+                        )
+                        st.success("Agent Result: agent has generated the result in report.md file")
+                        #Summarize = SummaryCrew().summary_crew().kickoff(
+                        #    inputs={"result": result}
+                        #)
+                        #st.write(Summarize)
+                    except Exception as e:
+                        st.error(f"Agent error: {e}")
+                except Exception as e:
+                    st.error(f"Description error: {e}")

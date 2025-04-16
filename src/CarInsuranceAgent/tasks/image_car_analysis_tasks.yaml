@@ -1,6 +1,6 @@
 interpret_image_task:
   description: >
-    Use the uploaded image at {{ image_url }} to identify the car's make, model, and year (if possible).
+    Use the provided description at {{ image_description }} to identify the car's make, model, and year (if possible).
     Include a quick note about the visible condition (e.g. clean, scratches, dented).
   expected_output: >
     A 1–2 sentence description like: "This looks like a 2018 Toyota Corolla in good condition."
@@ -24,9 +24,9 @@ recommend_coverage_task:
 
 summarize_results_task:
   description: >
-    Write a short, friendly summary for the user combining all previous findings:
-    car identity, estimated value, and recommended insurance.
-    Keep it easy to read and helpful.
+    Combine the results from image analysis, valuation, and coverage recommendation tasks.
+    Format a friendly summary message.
   expected_output: >
-    A final valuation report, that should not be too long, with a price estimate and a rationale combining all previous findings.
+    Markdown, A short, readable summary combining all results: car identity, estimated value, and insurance recommendation using Markdown formatting (headings, bullet points, etc.) to present the information.
   agent: response_summarizer
+  output_file: report.md
