@@ -1,7 +1,6 @@
 import os
 from crewai import LLM, Agent, Task, Crew, Process
 from crewai.project import CrewBase, agent, task, crew
-from tools.see_img import describe_image
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,9 +11,6 @@ LLM_MODEL = os.getenv('LLM_MODEL')
 
 @CrewBase
 class ImageCarAnalysisCrew:
-
-    def _vision_tool(self):
-        return describe_image()
 
     agents_config = 'agents/image_car_analysis_agents.yaml'
     tasks_config = 'tasks/image_car_analysis_tasks.yaml'

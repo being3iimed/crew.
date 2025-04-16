@@ -7,7 +7,7 @@ import streamlit as st
 from car_value_estimation_setup import CarValueEstimatorCrew
 from insurance_info_response_setup import InsuranceInfoResponderCrew
 from image_car_analysis_setup import ImageCarAnalysisCrew 
-#from summary_agent import SummaryCrew
+from summary_agent import ValuationSummaryCrew
 
 
 st.title("🚗 Car Insurance Assistant")
@@ -56,11 +56,12 @@ elif task == "Image-Based Car Estimation":
                         result = ImageCarAnalysisCrew().crew().kickoff(
                             inputs={"image_description": description}
                         )
-                        st.success("Agent Result: agent has generated the result in report.md file")
-                        #Summarize = SummaryCrew().summary_crew().kickoff(
-                        #    inputs={"result": result}
-                        #)
-                        #st.write(Summarize)
+                        st.success("Agent Result: agent has generated this summary response")
+                        with open("report.md", "r") as f:
+                            md_content = f.read()
+
+                        # Display it in Streamlit
+                        st.markdown(md_content, unsafe_allow_html=True)
                     except Exception as e:
                         st.error(f"Agent error: {e}")
                 except Exception as e:
